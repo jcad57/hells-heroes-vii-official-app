@@ -25,6 +25,19 @@
     "plugins": [
       "expo-router",
       [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Kanit-Regular.ttf",
+            "./assets/fonts/Kanit-Bold.ttf",
+            "./assets/fonts/Kanit-Medium.ttf",
+            "./assets/fonts/Kanit-SemiBold.ttf",
+            "./assets/fonts/Kanit-ExtraBold.ttf",
+            "./assets/fonts/Kanit-Black.ttf"
+          ]
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
@@ -36,6 +49,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "bfce2cf9-0876-4ced-ad83-7bba4afb3e78"
+      }
     }
   }
 }
