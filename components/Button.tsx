@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     borderColor: "#622D91",
     borderWidth: 4,
     paddingBlock: 20,
+    marginBlock: 5,
   },
   buttonSecondary: {
     backgroundColor: "#D53631",

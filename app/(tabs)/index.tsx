@@ -8,6 +8,8 @@ import Logo from "@/components/Logo";
 import NewsFeed from "@/components/NewsFeed";
 import Lineup from "@/components/Lineup";
 import Schedule from "@/components/Schedule";
+import GuideToHell from "@/components/GuideToHell";
+import More from "@/components/More";
 
 export default function Index() {
   const [currentTab, setCurrentTab] = useState("home");
@@ -19,6 +21,8 @@ export default function Index() {
         {currentTab === "home" && <NewsFeed />}
         {currentTab === "lineup" && <Lineup schedule={schedule} setSchedule={setSchedule} />}
         {currentTab === "schedule" && <Schedule schedule={schedule} setSchedule={setSchedule} />}
+        {currentTab === "guide-to-hell" && <GuideToHell />}
+        {currentTab === "more" && <More />}
       </ScrollView>
       <Navbar currentTab={currentTab} setCurrentTab={setCurrentTab} />
     </View>
