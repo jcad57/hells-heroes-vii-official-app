@@ -1,16 +1,21 @@
+import ScheduleContext from "@/context/ScheduleContext";
+import { useContext } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function StageSection({ stage, schedule, setSchedule }) {
+export default function StageSection({ stage, filteredScheduleByDay }) {
+  const context = useContext(ScheduleContext);
+  if (!context) {
+    throw new Error("ScheduleContext must be used within a ScheduleProvider");
+  }
+  const { schedule, addBand, filteredSchedule } = context;
+  const filteredScheduleByStage = filteredScheduleByDay.filter((band) => band.stage === stage);
   return (
     <View style={styles.stageSeperator}>
       <Text style={styles.stageSeperatorText}>{stage}</Text>
-      {schedule.map(
+      {filteredScheduleByStage.map(
         (band) =>
           band.stage === stage && (
-            <Pressable
-              style={styles.bandItem}
-              key={band.id}
-              onPress={() => setSchedule(schedule.filter((b) => b !== band))}>
+            <Pressable style={styles.bandItem} key={band.id} onPress={() => addBand(band)}>
               <Text style={styles.bandName}>{band.name}</Text>
               <Text style={styles.stageText}>{band.stage}</Text>
             </Pressable>

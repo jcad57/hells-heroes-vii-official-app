@@ -2,6 +2,7 @@ import { Linking, StyleSheet, View } from "react-native";
 import PageHeading from "./PageHeading";
 import Button from "./Button";
 import { useCallback } from "react";
+import AppContainer from "./AppContainer";
 
 const TICKETLINK = "https://www.ticketmaster.com/hell's-heroes-tickets/artist/3018376";
 const MERCHLINK = "https://www.musicfestivalwizard.com/festivals/hells-heroes-festival-2025/";
@@ -15,16 +16,16 @@ export default function More() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        <PageHeading text="Links" />
+    <View>
+      <PageHeading text="Links" />
+      <View style={styles.container}>
         <Button type="primary" text="Tickets & Upgrades" onPress={() => handlePress(TICKETLINK)} />
         <Button type="primary" text="Official Merch" onPress={() => handlePress(MERCHLINK)} />
         <Button type="primary" text="Website" onPress={() => handlePress(TICKETLINK)} />
         <Button type="primary" text="Venue Information" onPress={() => handlePress(VENUELINK)} />
-      </View>
-      <PageHeading text="Socials" />
-      <View style={styles.contentContainer}>
+
+        <PageHeading text="Socials" />
+
         <Button type="primary" text="@hellsheroes" onPress={() => handlePress(INSTALINK)} />
         <Button type="primary" text="@hellsheroes" onPress={() => handlePress(FACEBOOKLINK)} />
       </View>
@@ -35,9 +36,5 @@ export default function More() {
 const styles = StyleSheet.create({
   container: {
     minWidth: "100%",
-    paddingInline: 10,
-  },
-  contentContainer: {
-    marginBlockEnd: 40,
   },
 });

@@ -10,5 +10,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#D53631",
     marginBlockEnd: 10,
+    paddingInline: 10,
   },
 });

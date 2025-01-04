@@ -2,39 +2,39 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import StageSection from "./StageSection";
 import Button from "./Button";
 import PageHeading from "./PageHeading";
-import { useState } from "react";
+import { Link } from "expo-router";
+import { useContext } from "react";
+import ScheduleContext from "@/context/ScheduleContext";
 
-export default function Schedule({ schedule, setSchedule }) {
-  // const [showSchedule, setShowSchedule] = useState(false);
+export default function Schedule() {
+  const context = useContext(ScheduleContext);
+  if (!context) {
+    alert("ScheduleContext must be used within a ScheduleProvider");
+  }
+  const { schedule, clearSchedule } = context;
+
+  function handleClearSchedule() {
+    clearSchedule();
+    alert("Schedule cleared!");
+  }
   return (
     <View style={styles.container}>
       <PageHeading text="SCHEDULE" />
-      {/* {!showSchedule && (
+      <View style={{ marginBlockEnd: 35 }}>
+        <Link href="/(tabs)/schedule/thursday" asChild>
+          <Button type="primary" text="thursday, march 20th" />
+        </Link>
+        <Link href="/(tabs)/schedule/friday" asChild>
+          <Button type="primary" text="friday, march 21st" />
+        </Link>
+        <Link href="/(tabs)/schedule/saturday" asChild>
+          <Button type="primary" text="saturday, march 22nd" />
+        </Link>
+      </View>
+      {schedule.length > 0 && (
         <View>
-          <Button type="primary" text="thursday, march 20th" onPress={() => setShowSchedule(true)} />
-          <Button type="primary" text="friday, march 21st" onPress={() => setShowSchedule(true)} />
-          <Button type="primary" text="saturday, march 22nd" onPress={() => setShowSchedule(true)} />
-        </View>
-      )} */}
-      {schedule.length > 0 ? (
-        <View>
-          {schedule.filter((band) => band.stage === "DOWNSTAIRS").length > 0 && (
-            <StageSection stage="DOWNSTAIRS" schedule={schedule} setSchedule={setSchedule} />
-          )}
-          {schedule.filter((band) => band.stage === "UPSTAIRS").length > 0 && (
-            <StageSection stage="UPSTAIRS" schedule={schedule} setSchedule={setSchedule} />
-          )}
-          {schedule.filter((band) => band.stage === "LAWN").length > 0 && (
-            <StageSection stage="LAWN" schedule={schedule} setSchedule={setSchedule} />
-          )}
-          <View style={styles.buttonContainer}>
-            <Button type="primary" text="Share Schedule" onPress={() => alert("Schedule shared!")} />
-            <Button type="secondary" text="Clear Schedule" onPress={() => setSchedule([])} />
-          </View>
-        </View>
-      ) : (
-        <View style={styles.emptyScheduleContainer}>
-          <Text style={styles.emptyScheduleText}>No bands selected</Text>
+          <Button type="primary" text="Share Schedule" onPress={() => alert("Schedule shared!")} />
+          <Button type="secondary" text="clear schedule" onPress={() => handleClearSchedule()} />
         </View>
       )}
     </View>
@@ -68,14 +68,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  emptyScheduleContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  emptyScheduleText: {
-    color: "#fff",
-  },
   shareScheduleText: {
     color: "#fff",
     textAlign: "center",
@@ -84,9 +76,5 @@ const styles = StyleSheet.create({
   },
   shareScheduleButton: {
     width: "100%",
-  },
-  buttonContainer: {
-    marginInline: 20,
-    marginBlock: 20,
   },
 });

@@ -1,4 +1,4 @@
-import { Image, StyleSheet } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 
 export default function Logo() {
   return <Image style={styles.logo} source={require("../assets/images/hhvii-logo.png")} />;
@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     width: 214,
     height: 96,
     resizeMode: "contain",
+    marginBlockStart: 10,
     marginBlockEnd: 25,
   },
 });

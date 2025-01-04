@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import PageHeading from "./PageHeading";
 
 const newsFeed = [
@@ -22,7 +22,7 @@ const newsFeed = [
   },
 ];
 
-export default function BodyComponent() {
+export default function NewsFeed() {
   return (
     <View>
       <PageHeading text="NEWS" />
@@ -40,12 +40,6 @@ export default function BodyComponent() {
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 36,
-    fontWeight: "bold",
-    color: "#D53631",
-    marginBlockEnd: 10,
-  },
   container: {
     flex: 1,
     justifyContent: "center",

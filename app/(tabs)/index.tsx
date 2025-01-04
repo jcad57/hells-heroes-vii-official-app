@@ -1,7 +1,6 @@
-import { Link } from "expo-router";
-import { StyleSheet, Text, View, Pressable, Alert, ScrollView, Image } from "react-native";
-import { useState } from "react";
-import { useFonts } from "expo-font";
+import { useContext } from "react";
+
+import CurrentTabContext, { CurrentTabProvider } from "@/context/CurrentTabContext";
 
 import Navbar from "@/components/Navbar";
 import Logo from "@/components/Logo";
@@ -10,31 +9,20 @@ import Lineup from "@/components/Lineup";
 import Schedule from "@/components/Schedule";
 import GuideToHell from "@/components/GuideToHell";
 import More from "@/components/More";
+import AppContainer from "@/components/AppContainer";
 
 export default function Index() {
-  const [currentTab, setCurrentTab] = useState("home");
-  const [schedule, setSchedule] = useState([]);
+  const context = useContext(CurrentTabContext);
+  if (!context) alert("CurrentTabContext must be used within a ScheduleProvider");
+  const { currentTab } = context;
+
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <Logo />
-        {currentTab === "home" && <NewsFeed />}
-        {currentTab === "lineup" && <Lineup schedule={schedule} setSchedule={setSchedule} />}
-        {currentTab === "schedule" && <Schedule schedule={schedule} setSchedule={setSchedule} />}
-        {currentTab === "guide-to-hell" && <GuideToHell />}
-        {currentTab === "more" && <More />}
-      </ScrollView>
-      <Navbar currentTab={currentTab} setCurrentTab={setCurrentTab} />
-    </View>
+    <AppContainer>
+      {currentTab === "home" && <NewsFeed />}
+      {currentTab === "lineup" && <Lineup />}
+      {currentTab === "schedule" && <Schedule />}
+      {currentTab === "guide-to-hell" && <GuideToHell />}
+      {currentTab === "more" && <More />}
+    </AppContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    minWidth: "100%",
-    backgroundColor: "#000",
-  },
-});
