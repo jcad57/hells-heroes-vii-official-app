@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     width: 214,
     height: 96,
     resizeMode: "contain",
-    marginBlockStart: 10,
-    marginBlockEnd: 25,
+    marginBlockEnd: 20,
   },
 });

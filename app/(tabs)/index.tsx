@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import CurrentTabContext, { CurrentTabProvider } from "@/context/CurrentTabContext";
+import CurrentTabContext from "@/context/CurrentTabContext";
 
 import Navbar from "@/components/Navbar";
 import Logo from "@/components/Logo";

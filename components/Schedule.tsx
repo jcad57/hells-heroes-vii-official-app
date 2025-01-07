@@ -1,9 +1,10 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Link } from "expo-router";
+import { useContext } from "react";
+
 import StageSection from "./StageSection";
 import Button from "./Button";
 import PageHeading from "./PageHeading";
-import { Link } from "expo-router";
-import { useContext } from "react";
 import ScheduleContext from "@/context/ScheduleContext";
 
 export default function Schedule() {

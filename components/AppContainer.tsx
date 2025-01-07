@@ -3,26 +3,35 @@ import { useRouter } from "expo-router";
 
 import Logo from "./Logo";
 import Navbar from "./Navbar";
+import { ReactNode } from "react";
 
-export default function AppContainer({ children, showLogo = true, navigationHeaderText = "HELL'S HEROES VII" }) {
+interface AppContainerProps {
+  children: ReactNode;
+  showLogo?: boolean;
+  navigationHeaderText?: string;
+}
+
+export default function AppContainer({
+  children,
+  showHeader = true,
+  navigationHeaderText = "HELL'S HEROES VII",
+}: AppContainerProps) {
   // Get the router to navigate back
   const navigate = useRouter();
 
   return (
     <View style={styles.container}>
-      <View style={styles.navigationContainer}>
-        {navigate.canGoBack() && (
-          <Pressable onPress={() => navigate.back()} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-            <View>
-              <Image style={styles.backBtn} source={require("../assets/icons/arrow-back.png")} />
-            </View>
-          </Pressable>
-        )}
-        <Text style={styles.navigationText}>{navigationHeaderText}</Text>
-      </View>
-
       <ScrollView>
-        {showLogo && <Logo />}
+        <View style={styles.navigationContainer}>
+          {navigate.canGoBack() && (
+            <Pressable onPress={() => navigate.back()} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+              <View>
+                <Image style={styles.backBtn} source={require("../assets/icons/arrow-back.png")} />
+              </View>
+            </Pressable>
+          )}
+          <Logo />
+        </View>
         {children}
       </ScrollView>
 
@@ -36,13 +45,13 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: "100%",
     backgroundColor: "black",
+    paddingTop: 60,
   },
   navigationContainer: {
     minWidth: "100%",
-    paddingBlockStart: 60,
-    paddingBlockEnd: 10,
+    paddingBlockEnd: 5,
     justifyContent: "center",
-    backgroundColor: "#101010",
+    backgroundColor: "#000",
   },
   navigationText: {
     color: "white",
@@ -53,6 +62,7 @@ const styles = StyleSheet.create({
   backBtn: {
     position: "absolute",
     left: 20,
+    top: 20,
     width: 30,
     height: 30,
     paddingBlockEnd: 10,

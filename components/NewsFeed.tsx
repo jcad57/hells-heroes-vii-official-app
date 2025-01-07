@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 20,
+    paddingInline: 10,
   },
   newsItemContainer: {
     backgroundColor: "#2B2B2B",

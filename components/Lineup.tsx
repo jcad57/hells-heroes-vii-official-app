@@ -1,9 +1,10 @@
-import { Pressable, FlatList, StyleSheet, Text, View } from "react-native";
-import bands from "@/scripts/lineup";
-import LineupNav from "./LineupNav";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useContext, useState } from "react";
+
+import bands from "@/scripts/lineup";
 import PageHeading from "./PageHeading";
 import ScheduleContext from "../context/ScheduleContext";
+
 interface Band {
   id: number;
   name: string;
@@ -22,13 +23,13 @@ export default function Lineup() {
     throw new Error("ScheduleContext must be used within a ScheduleProvider");
   }
 
-  // The addBand function actually checks to see if band is already in the schedule and removes it if it is
+  // addBand will also check to see if band is already in schedule
+  // If so, it will remove the band instead
   const { schedule, addBand } = context;
 
   return (
     <View style={styles.container}>
       <PageHeading text="LINEUP" />
-      {/* <LineupNav filter={filter} setFilter={setFilter} /> */}
       {DATA.map((band) => (
         <Pressable key={band.id} onPress={() => addBand(band)}>
           <View style={[styles.bandItem, { backgroundColor: schedule.includes(band) ? "#622D91" : "" }]}>
