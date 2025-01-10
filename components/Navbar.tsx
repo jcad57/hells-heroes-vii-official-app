@@ -5,7 +5,7 @@ import { useContext } from "react";
 import CurrentTabContext, { CurrentTabProvider } from "@/context/CurrentTabContext";
 
 import NavItem from "./NavItem";
-import icons from "../scripts/icons";
+import icons from "../data/icons";
 
 export default function Navbar() {
   const context = useContext(CurrentTabContext);

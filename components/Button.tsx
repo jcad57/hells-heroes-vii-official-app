@@ -2,23 +2,34 @@ import React from "react";
 import { StyleSheet, Text, GestureResponderEvent, TouchableHighlight } from "react-native";
 
 interface ButtonProps {
-  type: "primary" | "secondary";
+  type: "primary" | "secondary" | "filter";
   text: string;
+  selected: boolean;
   onPress: (event: GestureResponderEvent) => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ type, text, onPress }) => {
-  const [isPressed, setIsPressed] = React.useState(false);
-
-  return (
-    <TouchableHighlight
-      style={type === "primary" ? styles.buttonPrimary : styles.buttonSecondary}
-      underlayColor={type === "primary" ? "#622D91" : "#B8110B"}
-      onPress={onPress}>
-      <Text style={styles.buttonText}>{text.toUpperCase()}</Text>
-    </TouchableHighlight>
-  );
-};
+function Button({ type, text, onPress, selected }: ButtonProps) {
+  if (type === "primary" || type === "secondary") {
+    return (
+      <TouchableHighlight
+        style={type === "primary" ? styles.buttonPrimary : styles.buttonSecondary}
+        underlayColor={type === "primary" ? "#622D91" : "#B8110B"}
+        onPress={onPress}>
+        <Text style={styles.buttonText}>{text.toUpperCase()}</Text>
+      </TouchableHighlight>
+    );
+  } else if (type === "filter") {
+    return (
+      <TouchableHighlight
+        onPress={onPress}
+        style={[styles.buttonPrimary, styles.filterButton, selected && styles.filterSelected]}>
+        <Text style={[styles.buttonText, styles.filterButtonText]}>{text.toUpperCase()}</Text>
+      </TouchableHighlight>
+    );
+  } else {
+    return null;
+  }
+}
 
 const styles = StyleSheet.create({
   buttonPrimary: {
@@ -35,11 +46,23 @@ const styles = StyleSheet.create({
     paddingBlock: 20,
     marginInline: 10,
   },
+  filterButton: {
+    flex: 1,
+    justifyContent: "center",
+    paddingBlock: 10,
+    marginInline: 5,
+  },
+  filterSelected: {
+    backgroundColor: "#622D91",
+  },
   buttonText: {
     color: "#fff",
     textAlign: "center",
     fontSize: 20,
     fontWeight: "bold",
+  },
+  filterButtonText: {
+    fontSize: 16,
   },
 });
 

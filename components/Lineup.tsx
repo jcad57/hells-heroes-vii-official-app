@@ -1,9 +1,10 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useContext, useState } from "react";
 
-import bands from "@/scripts/lineup";
+import bands from "@/data/lineup";
 import PageHeading from "./PageHeading";
 import ScheduleContext from "../context/ScheduleContext";
+import Button from "./Button";
 
 interface Band {
   id: number;
@@ -11,12 +12,14 @@ interface Band {
   location: string;
   day: string;
   stage: string;
+  filter: string;
 }
 
 const DATA: Band[] = bands;
 
 export default function Lineup() {
   const [filter, setFilter] = useState<string>("all");
+  const [filteredBands, setFilteredBands] = useState(DATA);
   const context = useContext(ScheduleContext);
 
   if (!context) {
@@ -27,17 +30,70 @@ export default function Lineup() {
   // If so, it will remove the band instead
   const { schedule, addBand } = context;
 
+  function handleSetFilter(filterType) {
+    setFilter(filterType);
+    if (filterType === "all") {
+      setFilteredBands(DATA);
+      return;
+    }
+    setFilteredBands(DATA.filter((band) => band.filter && band.filter === filterType));
+  }
+
   return (
     <View style={styles.container}>
       <PageHeading text="LINEUP" />
-      {DATA.map((band) => (
-        <Pressable key={band.id} onPress={() => addBand(band)}>
-          <View style={[styles.bandItem, { backgroundColor: schedule.includes(band) ? "#622D91" : "" }]}>
-            <Text style={styles.bandName}>{band.name}</Text>
-            <Text style={styles.bandLocation}>{band.location}</Text>
-          </View>
-        </Pressable>
-      ))}
+      <View style={{ flexDirection: "row" }}>
+        <View style={{ flex: 1 }}>
+          <Button
+            type="filter"
+            text="after-parties"
+            onPress={() => handleSetFilter("after-parties")}
+            selected={filter === "after-parties"}
+          />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button type="filter" text="all" onPress={() => handleSetFilter("all")} selected={filter === "all"} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button type="filter" text="local" onPress={() => handleSetFilter("local")} selected={filter === "local"} />
+        </View>
+      </View>
+      {filteredBands
+        .sort((a, b) => {
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
+          return 0;
+        })
+        .map((band) => (
+          <Pressable key={band.id} onPress={() => addBand(band)}>
+            <View
+              style={[
+                styles.bandItem,
+                {
+                  // Checks if band is on user's schedule to switch highlight on
+                  // Does a second check to see if the band is only playing the afterparty, if so
+                  // highlights in red
+                  backgroundColor: schedule.includes(band)
+                    ? band.filter?.includes("after-parties")
+                      ? "#D53631"
+                      : "#622D91"
+                    : "",
+                },
+              ]}>
+              <View>
+                <Text style={styles.bandName}>{band.name}</Text>
+                <Text style={styles.bandLocation}>{band.location}</Text>
+              </View>
+              {schedule.includes(band) && band.filter === "after-parties" && (
+                <View>
+                  <View>
+                    <Text style={styles.afterPartyBandText}>AFTERPARTY</Text>
+                  </View>
+                </View>
+              )}
+            </View>
+          </Pressable>
+        ))}
     </View>
   );
 }
@@ -55,6 +111,10 @@ const styles = StyleSheet.create({
   bandItem: {
     paddingBlock: 10,
     paddingInline: 10,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   bandName: {
     fontSize: 18,
@@ -63,5 +123,18 @@ const styles = StyleSheet.create({
   },
   bandLocation: {
     color: "#fff",
+  },
+  onMyScheduleContainer: {
+    borderWidth: 1,
+    borderColor: "#fff",
+  },
+  afterPartyBandText: {
+    color: "#000",
+    fontFamily: "Kanit-SemiBold",
+    padding: 5,
+  },
+  onMyScheduleIcon: {
+    width: 25,
+    height: 25,
   },
 });

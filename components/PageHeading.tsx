@@ -1,10 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 
-export default function PageHeading({ text }) {
+interface PageHeadingProps {
+  text: string;
+}
+
+export default function PageHeading({ text }: PageHeadingProps) {
   const [fontsLoaded] = useFonts({
     "Kanit-SemiBold": require("../assets/fonts/Kanit-SemiBold.ttf"),
   });
+
   return <Text style={styles.heading}>{text.toUpperCase()}</Text>;
 }
 

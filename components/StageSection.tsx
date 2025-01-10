@@ -15,9 +15,24 @@ export default function StageSection({ stage, filteredScheduleByDay }) {
       {filteredScheduleByStage.map(
         (band) =>
           band.stage === stage && (
-            <Pressable style={styles.bandItem} key={band.id} onPress={() => addBand(band)}>
-              <Text style={styles.bandName}>{band.name}</Text>
-              <Text style={styles.stageText}>{band.stage}</Text>
+            <Pressable
+              style={[
+                { backgroundColor: band.filter?.includes("after-parties") ? "#D53631" : "#622D91" },
+                styles.bandItem,
+              ]}
+              key={band.id}
+              onPress={() => addBand(band)}>
+              <View>
+                <Text style={styles.bandName}>{band.name}</Text>
+                <Text style={styles.stageText}>{band.stage}</Text>
+              </View>
+              {schedule.includes(band) && band.filter === "after-parties" && (
+                <View>
+                  <View>
+                    <Text style={styles.afterPartyBandText}>AFTERPARTY</Text>
+                  </View>
+                </View>
+              )}
             </Pressable>
           )
       )}
@@ -39,8 +54,11 @@ const styles = StyleSheet.create({
   bandItem: {
     paddingVertical: 10,
     paddingHorizontal: 10,
-    backgroundColor: "#622D91",
-    // marginBottom: 5,
+    // backgroundColor: "#622D91",
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   bandName: {
     fontSize: 18,
@@ -49,5 +67,10 @@ const styles = StyleSheet.create({
   },
   stageText: {
     color: "#fff",
+  },
+  afterPartyBandText: {
+    color: "#000",
+    fontFamily: "Kanit-SemiBold",
+    padding: 5,
   },
 });

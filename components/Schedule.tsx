@@ -1,6 +1,6 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Link } from "expo-router";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import StageSection from "./StageSection";
 import Button from "./Button";
@@ -15,9 +15,17 @@ export default function Schedule() {
   const { schedule, clearSchedule } = context;
 
   function handleClearSchedule() {
-    clearSchedule();
-    alert("Schedule cleared!");
+    Alert.alert("Confirmation", "Are you sure you want to clear your schedule?", [
+      {
+        text: "No",
+      },
+      {
+        text: "Yes",
+        onPress: () => clearSchedule(),
+      },
+    ]);
   }
+
   return (
     <View style={styles.container}>
       <PageHeading text="SCHEDULE" />

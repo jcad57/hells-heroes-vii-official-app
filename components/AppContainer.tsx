@@ -1,9 +1,9 @@
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 
 import Logo from "./Logo";
 import Navbar from "./Navbar";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 
 interface AppContainerProps {
   children: ReactNode;
@@ -20,38 +20,43 @@ export default function AppContainer({
   const navigate = useRouter();
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.navigationContainer}>
-          {navigate.canGoBack() && (
-            <Pressable onPress={() => navigate.back()} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-              <View>
-                <Image style={styles.backBtn} source={require("../assets/icons/arrow-back.png")} />
-              </View>
-            </Pressable>
-          )}
-          <Logo />
-        </View>
-        {children}
-      </ScrollView>
-
-      <Navbar />
-    </View>
+    <ImageBackground source={require("../assets/images/temp-bg.jpg")} style={styles.bgImage}>
+      <View style={styles.container}>
+        <ScrollView>
+          <View style={styles.navigationContainer}>
+            {navigate.canGoBack() && (
+              <Pressable onPress={() => navigate.back()} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+                <View>
+                  <Image style={styles.backBtn} source={require("../assets/icons/arrow-back.png")} />
+                </View>
+              </Pressable>
+            )}
+            <Logo />
+          </View>
+          {children}
+        </ScrollView>
+        <Navbar />
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+  },
   container: {
     flex: 1,
     minWidth: "100%",
-    backgroundColor: "black",
     paddingTop: 60,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   navigationContainer: {
     minWidth: "100%",
     paddingBlockEnd: 5,
     justifyContent: "center",
-    backgroundColor: "#000",
   },
   navigationText: {
     color: "white",
