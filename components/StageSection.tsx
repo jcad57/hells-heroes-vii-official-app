@@ -2,13 +2,35 @@ import ScheduleContext from "@/context/ScheduleContext";
 import { useContext } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function StageSection({ stage, filteredScheduleByDay }) {
+interface Band {
+  id: number;
+  name: string;
+  stage: string;
+  time: string;
+  filter?: string;
+  location: string;
+  day: string;
+}
+
+interface StageSectionType {
+  stage: string;
+  filteredScheduleByDay: Band[];
+}
+
+export default function StageSection({ stage, filteredScheduleByDay }: StageSectionType) {
   const context = useContext(ScheduleContext);
   if (!context) {
     throw new Error("ScheduleContext must be used within a ScheduleProvider");
   }
-  const { schedule, addBand, filteredSchedule } = context;
-  const filteredScheduleByStage = filteredScheduleByDay.filter((band) => band.stage === stage);
+  const { schedule, addBand } = context;
+  const filteredScheduleByStage = filteredScheduleByDay
+    .filter((band) => band.stage === stage)
+    .sort(function (a, b) {
+      if (a.time < b.time) return -1;
+      if (a.time > b.time) return 1;
+      return 0;
+    });
+
   return (
     <View style={styles.stageSeperator}>
       <Text style={styles.stageSeperatorText}>{stage}</Text>
@@ -24,7 +46,10 @@ export default function StageSection({ stage, filteredScheduleByDay }) {
               onPress={() => addBand(band)}>
               <View>
                 <Text style={styles.bandName}>{band.name}</Text>
-                <Text style={styles.stageText}>{band.stage}</Text>
+                <Text style={styles.stageText}>
+                  {/*  TODO: add styling to the 'time' text so that it stands out */}
+                  {band.stage}, <Text>{band.time}</Text>
+                </Text>
               </View>
               {schedule.includes(band) && band.filter === "after-parties" && (
                 <View>

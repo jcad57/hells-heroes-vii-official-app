@@ -12,7 +12,8 @@ interface Band {
   location: string;
   day: string;
   stage: string;
-  filter: string;
+  filter?: string;
+  time: string;
 }
 
 const DATA: Band[] = bands;
@@ -30,7 +31,7 @@ export default function Lineup() {
   // If so, it will remove the band instead
   const { schedule, addBand } = context;
 
-  function handleSetFilter(filterType) {
+  function handleSetFilter(filterType: string) {
     setFilter(filterType);
     if (filterType === "all") {
       setFilteredBands(DATA);
