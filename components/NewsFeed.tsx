@@ -1,39 +1,63 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import PageHeading from "./PageHeading";
+import { StyleSheet, Text, View } from "react-native";
 
-const newsFeed = [
-  {
-    id: 1,
-    timeStamp: "2 hours ago",
-    title: "Lineup Announcement",
-    body: "🎶🔥 Big news, festival fam! We've just added [Band Name] and [Artist Name] to this year’s lineup! Get ready for an unforgettable weekend of music, vibes, and memories. \n\nTickets are still available: \n\n#MusicFestival #LiveMusic #FestivalUpdates",
-  },
-  {
-    id: 2,
-    timeStamp: "6 hours ago",
-    title: "Weather Advisory",
-    body: "☀️🌧️ Stay prepared, festival-goers! The forecast for this weekend shows sunny skies during the day but cooler temps in the evening.\n\n✅ Bring sunscreen, shades, and layers to stay comfy.\n\nStay hydrated and ready to dance the night away!",
-  },
-  {
-    id: 3,
-    timeStamp: "3/12/25 - 4:45pm",
-    title: "Lineup Announcement",
-    body: "Big news, festival fam! We've just added [Band Name] and [Artist Name] to this year’s lineup! Get ready for an unforgettable weekend of music, vibes, and memories. \n\nTickets are still available: \n\n#MusicFestival #LiveMusic #FestivalUpdates",
-  },
-];
+import PageHeading from "./PageHeading";
+import { db } from "../firebase/firebase";
+import { useEffect, useState } from "react";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+
+interface NewsFeedItems {
+  id: string;
+  title: string;
+  body: string;
+  timestamp: string;
+}
 
 export default function NewsFeed() {
+  const [newsFeed, setNewsFeed] = useState<NewsFeedItems[]>([]);
+  const [newsFeedError, setNewsFeedError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchSchedule = async () => {
+      setIsLoading(true);
+      try {
+        const querySnapshot = await getDocs(query(collection(db, "newsfeed-items"), orderBy("timestamp", "desc")));
+        const newsFeedData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          title: doc.data().title,
+          body: doc.data().body,
+          timestamp: doc.data().timestamp,
+        }));
+
+        setNewsFeed(newsFeedData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching schedule:", error);
+        setNewsFeedError(true);
+        setIsLoading(false);
+      }
+    };
+    fetchSchedule();
+  }, []);
+
   return (
     <View>
       <PageHeading text="NEWS" />
       <View style={styles.container}>
-        {newsFeed.map((newsItem) => (
-          <View style={styles.newsItemContainer} key={newsItem.id}>
-            <Text style={styles.timeStamp}>{newsItem.timeStamp}</Text>
-            <Text style={styles.title}>{newsItem.title}</Text>
-            <Text style={styles.body}>{newsItem.body}</Text>
+        {newsFeedError && <Text>Error fetching NewsFeed...</Text>}
+        {isLoading && (
+          <View style={{ flex: 1, width: "100%" }}>
+            <Text style={{ color: "#D53631", fontWeight: "bold", textAlign: "center" }}>Loading NewsFeed...</Text>
           </View>
-        ))}
+        )}
+        {!newsFeedError &&
+          newsFeed.map((newsItem) => (
+            <View style={styles.newsItemContainer} key={newsItem.id}>
+              <Text style={styles.timeStamp}>{newsItem.timestamp}</Text>
+              <Text style={styles.title}>{newsItem.title}</Text>
+              <Text style={styles.body}>{newsItem.body}</Text>
+            </View>
+          ))}
       </View>
     </View>
   );
@@ -42,8 +66,7 @@ export default function NewsFeed() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    width: "100%",
     gap: 20,
     paddingInline: 10,
   },
