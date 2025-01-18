@@ -1,8 +1,6 @@
 import { Linking, StyleSheet, View } from "react-native";
 import PageHeading from "./PageHeading";
 import Button from "./Button";
-import { useCallback } from "react";
-import AppContainer from "./AppContainer";
 
 const TICKETLINK = "https://www.ticketmaster.com/hell's-heroes-tickets/artist/3018376";
 const MERCHLINK = "https://www.musicfestivalwizard.com/festivals/hells-heroes-festival-2025/";

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, StyleSheet, Text, View } from "react-native";
 
 import PageHeading from "./PageHeading";
 import { db } from "../firebase/firebase";
@@ -21,13 +21,17 @@ export default function NewsFeed() {
     const fetchSchedule = async () => {
       setIsLoading(true);
       try {
-        const querySnapshot = await getDocs(query(collection(db, "newsfeed-items"), orderBy("timestamp", "desc")));
-        const newsFeedData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          title: doc.data().title,
-          body: doc.data().body,
-          timestamp: doc.data().timestamp,
-        }));
+        const querySnapshot = await getDocs(query(collection(db, "newsfeed-items")));
+        const newsFeedData = querySnapshot.docs
+          .map((doc) => ({
+            id: doc.id,
+            title: doc.data().title,
+            body: doc.data().body,
+            timestamp: doc.data().timestamp,
+          }))
+          .sort((a, b) => {
+            return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+          });
 
         setNewsFeed(newsFeedData);
         setIsLoading(false);
@@ -39,6 +43,25 @@ export default function NewsFeed() {
     };
     fetchSchedule();
   }, []);
+
+  // Check post body text for links and convert to active links
+  // and open using openPostLink
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  function formatBodyText(text: string) {
+    return text.split(urlRegex).map((part, i) => {
+      return urlRegex.test(part) ? (
+        <Text key={i} style={styles.linkText} onPress={() => openPostLink(part)}>
+          {part}
+        </Text>
+      ) : (
+        part
+      );
+    });
+  }
+
+  function openPostLink(link: string) {
+    Linking.openURL(link.toString()).catch((err) => alert("An error occurred"));
+  }
 
   return (
     <View>
@@ -55,7 +78,7 @@ export default function NewsFeed() {
             <View style={styles.newsItemContainer} key={newsItem.id}>
               <Text style={styles.timeStamp}>{newsItem.timestamp}</Text>
               <Text style={styles.title}>{newsItem.title}</Text>
-              <Text style={styles.body}>{newsItem.body}</Text>
+              <Text style={styles.body}>{formatBodyText(newsItem.body)}</Text>
             </View>
           ))}
       </View>
@@ -89,5 +112,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#FFF",
     marginBlock: 10,
+  },
+  linkText: {
+    color: "rgb(250, 80, 53)",
   },
 });
