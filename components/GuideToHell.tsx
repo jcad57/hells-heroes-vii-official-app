@@ -11,33 +11,30 @@ const TEMPMARKERS = [
         id: "1",
         name: "Hell's Heroes HQ",
         description: "The home of Hell's Heroes",
-        location: { latitude: 29.786213265882278, longitude: -95.36701106479163 },
+         "latitude": 29.786213265882278, 
+         "longitude": -95.36701106479163 ,
     },
 ];
 
 const initialRegion: Region = {
     latitude: 29.786213265882278,
     longitude: -95.36701106479163,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-};
-
-const newRegion = {
-    latitude: 27.786213265882278,
-    longitude: -94.36701106479163,
+    latitudeDelta: 0.1,
+    longitudeDelta: 0.07,
 };
 
 interface BusinessListData {
     id: string;
     name: string;
     description: string;
-    location: LatLng;
+    latitude: number;
+    longitude: number;
 }
 
 export default function GuideToHell() {
     const [region, setRegion] = useState(initialRegion);
     const [isLoading, setIsLoading] = useState(false);
-    const [businessList, setBusinessList] = useState(TEMPMARKERS);
+    const [businessList, setBusinessList] = useState<BusinessListData[]>([]);
 
     const mapRef = useRef<MapView>(null);
 
@@ -50,9 +47,11 @@ export default function GuideToHell() {
                     id: doc.id,
                     name: doc.data().name,
                     description: doc.data().description,
-                    location: doc.data().location,
+                      latitude: parseFloat(doc.data().latitude),
+  longitude: parseFloat(doc.data().longitude),
                 }));
                 setBusinessList(businessListData);
+
                 setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching schedule:", error);
@@ -63,30 +62,35 @@ export default function GuideToHell() {
     }, []);
 
     function handleMarkerPress({ marker }: any) {
-        setRegion(marker.location);
+        console.log(marker);
+        setRegion({latitude: marker.latitude, longitude: marker.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421});
     }
+
+    useEffect(() => {
+        console.log('BusinessList state updated:', businessList);
+      }, [businessList]);
 
     return (
         <View style={styles.container}>
             <PageHeading text="Guide to Hell" />
-            <MapView
+            {businessList.length > 0 && <MapView
                 ref={mapRef}
                 style={styles.map}
                 initialRegion={initialRegion}
                 region={region}
                 mapType="mutedStandard">
-                {businessList.map((marker) => {
+                {businessList?.map((marker) => {
                     return (
                         <Marker
-                            key={marker.name}
-                            coordinate={{ latitude: marker.location.latitude, longitude: marker.location.longitude }}
+                            key={marker.id}
+                            coordinate={{latitude: marker.latitude, longitude: marker.longitude}}
                             title={marker.name}
                             description={marker.description}
-                            onSelect={() => handleMarkerPress(marker)}
+                            // onSelect={() => handleMarkerPress(marker)}
                         />
                     );
                 })}
-            </MapView>
+            </MapView>}
         </View>
     );
 }
