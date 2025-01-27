@@ -1,8 +1,9 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Image, Text } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { db } from "@/firebase/firebase";
 import { collection, getDocs, query } from "firebase/firestore";
-import MapView, { LatLng, Marker, Region } from "react-native-maps";
+import MapView, { Callout, LatLng, Marker, Region } from "react-native-maps";
+import image from "../assets/images/business-list-images/vinal-edge.jpg"
 
 import PageHeading from "./PageHeading";
 
@@ -86,8 +87,21 @@ export default function GuideToHell() {
                             coordinate={{latitude: marker.latitude, longitude: marker.longitude}}
                             title={marker.name}
                             description={marker.description}
+                            // image={require("../assets/images/business-list-images/vinal-edge.jpg")}
                             // onSelect={() => handleMarkerPress(marker)}
-                        />
+                        >
+                            <Callout >
+                                <View style={{flex: 1, flexDirection: 'column', flexWrap: 'wrap'}}>
+            <Image style={{ width: 150, height: 100, resizeMode: "contain"}}
+              source={{
+                uri: ("https://onthegrid.city/imager/s3_amazonaws_com/onthegrid.city/assets/grid/houston/heights/vinal-edge-records/on-the-grid-bucanans-1-9_299006722e285f47655d17d1c9136337.jpg"),
+              }}
+            />
+            <Text>{marker.name}</Text>
+            <Text>{marker.description}</Text>
+          </View>
+          </Callout>
+            </Marker>
                     );
                 })}
             </MapView>}
