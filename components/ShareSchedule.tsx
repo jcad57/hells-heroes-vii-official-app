@@ -15,7 +15,11 @@ const ScheduleShare = () => {
     const captureAndShare = async () => {
         try {
             // Capture the screenshot of the schedule view
-            const uri = await viewShotRef.current.capture();
+            if (viewShotRef.current) {
+                const uri = await viewShotRef.current.capture();
+            } else {
+                throw new Error("viewShotRef is null");
+            }
 
             // Save to device storage (needed before sharing)
             const { status } = await MediaLibrary.requestPermissionsAsync();

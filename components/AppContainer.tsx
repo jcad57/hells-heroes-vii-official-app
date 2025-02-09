@@ -9,6 +9,7 @@ interface AppContainerProps {
     children: ReactNode;
     showLogo?: boolean;
     navigationHeaderText?: string;
+    logo: boolean;
 }
 
 export default function AppContainer({
