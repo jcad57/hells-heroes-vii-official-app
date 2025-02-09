@@ -45,17 +45,6 @@ export default function Lineup() {
         }
         setFilteredBands(DATA.filter((band) => band.filter && band.filter === filterType));
     }
-    console.log(
-        schedule.some(
-            (band) =>
-                band.day === "SATURDAY" &&
-                band.id === 2 &&
-                band.location === "BERGEN, NORWAY" &&
-                band.name === "ABBATH" &&
-                band.stage === "DOWNSTAIRS" &&
-                band.time === "8:11 PM"
-        )
-    );
 
     return (
         <View style={styles.container}>

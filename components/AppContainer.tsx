@@ -1,4 +1,4 @@
-import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { ReactNode } from "react";
 
@@ -11,12 +11,16 @@ interface AppContainerProps {
     navigationHeaderText?: string;
 }
 
-export default function AppContainer({ children, navigationHeaderText = "HELL'S HEROES VII" }: AppContainerProps) {
+export default function AppContainer({
+    logo,
+    children,
+    navigationHeaderText = "HELL'S HEROES VII",
+}: AppContainerProps) {
     // Get the router to navigate back
     const navigate = useRouter();
 
     return (
-        <ImageBackground source={require("../assets/images/temp-bg.jpg")} style={styles.bgImage}>
+        <ImageBackground source={require("../assets/images/app-bg-image.jpg")} style={styles.bgImage}>
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={styles.navigationContainer}>
@@ -29,7 +33,7 @@ export default function AppContainer({ children, navigationHeaderText = "HELL'S 
                                 </View>
                             </Pressable>
                         )}
-                        <Logo />
+                        <Logo shown={logo} />
                     </View>
                     {children}
                 </ScrollView>
@@ -49,7 +53,7 @@ const styles = StyleSheet.create({
         flex: 1,
         minWidth: "100%",
         paddingTop: 60,
-        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        backgroundColor: "rgba(0, 0, 0, 0.6)",
     },
     navigationContainer: {
         minWidth: "100%",

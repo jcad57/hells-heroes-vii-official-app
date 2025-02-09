@@ -10,8 +10,6 @@ interface Band {
     stage: string;
     filter?: string;
     time?: string;
-    getSchedule?: () => void;
-    filterSchedule?: () => void;
 }
 
 interface ScheduleContextType {
@@ -22,7 +20,13 @@ interface ScheduleContextType {
     filterSchedule: (type: string, value: any) => Band[];
 }
 
-const ScheduleContext = createContext<ScheduleContextType | undefined>(undefined);
+const ScheduleContext = createContext<ScheduleContextType>({
+    schedule: [],
+    addBand: () => {},
+    clearSchedule: () => {},
+    getSchedule: () => {},
+    filterSchedule: () => [],
+});
 
 export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
     const [schedule, setSchedule] = useState<Band[]>([]);
@@ -43,15 +47,12 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const addBand = async (band: Band) => {
-        console.log("the band" + band);
         try {
-            const updatedSchedule = schedule.includes(band)
+            const updatedSchedule = schedule.some((b) => b.id === band.id)
                 ? schedule.filter((b) => b.id !== band.id)
                 : [...schedule, band];
-            // const updatedSchedule = [...schedule, band];
             await AsyncStorage.setItem("my-schedule", JSON.stringify(updatedSchedule));
             setSchedule(updatedSchedule);
-            console.log("added");
         } catch (error) {
             console.log(error);
             return error;

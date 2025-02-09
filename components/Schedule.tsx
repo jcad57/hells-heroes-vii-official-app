@@ -41,7 +41,9 @@ export default function Schedule() {
             </View>
             {schedule?.length > 0 && (
                 <View>
-                    <Button type="primary" text="Share Schedule" onPress={() => alert("Schedule shared!")} />
+                    <Link href="/(tabs)/schedule/share" asChild>
+                        <Button type="primary" text="Share Schedule" />
+                    </Link>
                     <Button type="secondary" text="clear schedule" onPress={() => handleClearSchedule()} />
                 </View>
             )}
