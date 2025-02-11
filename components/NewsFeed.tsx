@@ -67,7 +67,7 @@ export default function NewsFeed() {
     return (
         <View>
             <PageHeading text="NEWS" />
-            {/* <Text style={{ color: "white" }}>{data}</Text> */}
+
             <View style={styles.container}>
                 {newsFeedError && <Text>Error fetching NewsFeed...</Text>}
                 {isLoading && (
@@ -78,6 +78,7 @@ export default function NewsFeed() {
                     </View>
                 )}
                 {!newsFeedError &&
+                    newsFeed.length > 1 &&
                     newsFeed.map((newsItem) => (
                         <View style={styles.newsItemContainer} key={newsItem.id}>
                             <Text style={styles.timeStamp}>{newsItem.timestamp}</Text>
@@ -85,6 +86,7 @@ export default function NewsFeed() {
                             <Text style={styles.body}>{formatBodyText(newsItem.body)}</Text>
                         </View>
                     ))}
+                {newsFeed.length === 0 && <Text>No news yet...</Text>}
             </View>
         </View>
     );

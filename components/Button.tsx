@@ -1,22 +1,25 @@
 import React from "react";
-import { StyleSheet, Text, GestureResponderEvent, TouchableHighlight } from "react-native";
+import { StyleSheet, Text, GestureResponderEvent, TouchableHighlight, Image, ImageSourcePropType } from "react-native";
 
 interface ButtonProps {
     type: "primary" | "secondary" | "filter";
     text: string;
     selected?: boolean;
     onPress?: (event: GestureResponderEvent) => void;
+    imgUrl?: ImageSourcePropType;
 }
 
-const Button = React.forwardRef<unknown, ButtonProps>(({ type, text, onPress, selected }, ref) => {
-    // function Button({ type, text, onPress, selected }: ButtonProps) {
+const Button = React.forwardRef<unknown, ButtonProps>(({ type, text, onPress, selected, imgUrl }, ref) => {
     if (type === "primary" || type === "secondary") {
         return (
             <TouchableHighlight
                 style={type === "primary" ? styles.buttonPrimary : styles.buttonSecondary}
                 underlayColor={type === "primary" ? "#622D91" : "#B8110B"}
                 onPress={onPress}>
-                <Text style={styles.buttonText}>{text.toUpperCase()}</Text>
+                <>
+                    {imgUrl && <Image style={styles.btnIcon} source={imgUrl} />}
+                    <Text style={styles.buttonText}>{text.toUpperCase()}</Text>
+                </>
             </TouchableHighlight>
         );
     } else if (type === "filter") {
@@ -34,6 +37,7 @@ const Button = React.forwardRef<unknown, ButtonProps>(({ type, text, onPress, se
 
 const styles = StyleSheet.create({
     buttonPrimary: {
+        position: "relative",
         borderColor: "#622D91",
         backgroundColor: "rgba(0, 0, 0, 0.5)",
         borderWidth: 4,
@@ -42,6 +46,7 @@ const styles = StyleSheet.create({
         marginInline: 10,
     },
     buttonSecondary: {
+        position: "relative",
         backgroundColor: "#D53631",
         borderWidth: 4,
         borderColor: "#D53631",
@@ -65,6 +70,14 @@ const styles = StyleSheet.create({
     },
     filterButtonText: {
         fontSize: 16,
+    },
+    btnIcon: {
+        position: "absolute",
+        backgroundColor: "transparent",
+        top: "55%",
+        left: 20,
+        width: 35,
+        height: 35,
     },
 });
 
