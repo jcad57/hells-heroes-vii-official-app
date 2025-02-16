@@ -1,4 +1,4 @@
-import { Linking, StyleSheet, Text, View } from "react-native";
+import { Linking, StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { db } from "../firebase/firebase";
 import { useEffect, useState } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
@@ -65,16 +65,14 @@ export default function NewsFeed() {
     }
 
     return (
-        <View>
+        <>
             <PageHeading text="NEWS" />
 
             <View style={styles.container}>
                 {newsFeedError && <Text>Error fetching NewsFeed...</Text>}
                 {isLoading && (
-                    <View style={{ flex: 1, width: "100%" }}>
-                        <Text style={{ color: "#D53631", fontWeight: "bold", textAlign: "center" }}>
-                            Loading NewsFeed...
-                        </Text>
+                    <View style={styles.loading}>
+                        <ActivityIndicator />
                     </View>
                 )}
                 {!newsFeedError &&
@@ -88,7 +86,7 @@ export default function NewsFeed() {
                     ))}
                 {newsFeed.length === 0 && <Text>No news yet...</Text>}
             </View>
-        </View>
+        </>
     );
 }
 
@@ -121,5 +119,11 @@ const styles = StyleSheet.create({
     },
     linkText: {
         color: "rgb(250, 80, 53)",
+    },
+    loading: {
+        flex: 1,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
     },
 });

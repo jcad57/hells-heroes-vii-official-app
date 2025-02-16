@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, ActivityIndicator } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { db } from "@/firebase/firebase";
 import { collection, getDocs, query } from "firebase/firestore";
@@ -7,6 +7,7 @@ import { BusinessListData } from "../data/types";
 
 import PageHeading from "./PageHeading";
 import Loading from "./Loading";
+import Button from "./Button";
 
 export default function Map() {
     const [isLoading, setIsLoading] = useState(false);
@@ -54,36 +55,39 @@ export default function Map() {
     }
 
     return (
-        <View style={{ flex: 1 }}>
-            {!isLoading ? (
-                <MapView ref={mapRef} style={styles.map} initialRegion={region} region={region} mapType="mutedStandard">
-                    {businessList.map((marker) => {
-                        return (
-                            <Marker
-                                key={marker.id}
-                                coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-                                onSelect={() => handleMarkerPress(marker)}>
-                                <Callout tooltip={true}>
-                                    <View style={styles.tooltipContainer}>
-                                        <Image
-                                            source={{
-                                                uri: "https://onthegrid.city/imager/s3_amazonaws_com/onthegrid.city/assets/grid/houston/heights/vinal-edge-records/on-the-grid-bucanans-1-9_299006722e285f47655d17d1c9136337.jpg",
-                                            }}
-                                        />
-                                    </View>
-                                    <View>
-                                        <Text>{marker.name}</Text>
-                                        <Text>{marker.description}</Text>
-                                    </View>
-                                </Callout>
-                            </Marker>
-                        );
-                    })}
-                </MapView>
-            ) : (
-                <Loading />
-            )}
-        </View>
+        <>
+            <PageHeading text="guide to hell" />
+            <View style={{ flex: 1 }}>
+                {!isLoading ? (
+                    <MapView
+                        ref={mapRef}
+                        style={styles.map}
+                        initialRegion={region}
+                        region={region}
+                        mapType="mutedStandard">
+                        {businessList.map((marker) => {
+                            return (
+                                <Marker
+                                    key={marker.id}
+                                    coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+                                    onSelect={() => handleMarkerPress(marker)}>
+                                    <Callout tooltip={true}>
+                                        <View style={styles.tooltipContainer}>
+                                            <Text style={styles.markerName}>{marker.name}</Text>
+                                            <Text style={styles.markerDescription}>{marker.description}</Text>
+                                        </View>
+                                    </Callout>
+                                </Marker>
+                            );
+                        })}
+                    </MapView>
+                ) : (
+                    <View style={styles.loading}>
+                        <ActivityIndicator />
+                    </View>
+                )}
+            </View>
+        </>
     );
 }
 
@@ -93,6 +97,24 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     tooltipContainer: {
+        transform: "translateY(-40%)",
+        width: 200,
+        backgroundColor: "rgba(255, 255, 255, 0.8)",
+        padding: 10,
+        borderRadius: 10,
+        gap: 10,
+    },
+    markerName: {
+        fontSize: 22,
+        fontFamily: "Kanit",
+    },
+    markerDescription: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    loading: {
         flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
 });

@@ -70,7 +70,7 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
         console.log("Done.");
     };
 
-    const filterSchedule = (type: string, value: any) => {
+    const filterSchedule = (type: string, value: string) => {
         if (type === "all") return schedule;
         if (type === "stage") return schedule.filter((band) => band.stage === value);
         if (type === "day") return schedule.filter((band) => band.day === value);

@@ -1,18 +1,30 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 
-import PageHeading from "./PageHeading";
 import Button from "./Button";
+import useLocalAsyncStorage from "@/hooks/useLocalAsyncStorage";
 
-export default function GuideToHellIntro({ setIntro }) {
+interface GuideToHellPropTypes {
+    setIntro: (value: boolean) => void;
+}
+
+export default function GuideToHellIntro({ setIntro }: GuideToHellPropTypes) {
+    const { setStorage } = useLocalAsyncStorage();
+
     return (
         <View style={styles.container}>
-            <Text style={styles.headingTop}>YOU MAY ALL GO TO HELL</Text>
-            <Text style={[styles.headingTop, styles.headingBottom]}> BUT I WILL GO TO TEXAS</Text>
+            <Text style={styles.headingTop}>YOU MAY ALL GO TO HELL AND I WILL GO TO TEXAS</Text>
             <Text style={styles.subHeading}>
                 Welcome to Houston! Check out some of our favorite local businesses while you're here.
             </Text>
             <Image style={styles.icon} source={require("../assets/icons/rock.png")} />
-            <Button type="primary" text="continue" onPress={() => setIntro(false)} />
+            <Button
+                type="primary"
+                text="lets go!"
+                onPress={() => {
+                    setStorage("showGuideToHellInto", { showIntro: false });
+                    setIntro(false);
+                }}
+            />
         </View>
     );
 }
@@ -32,12 +44,13 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     headingBottom: {
-        fontSize: 28,
+        fontSize: 34,
     },
     subHeading: {
         color: "rgba(255, 255, 255, 0.8)",
+        paddingInline: 20,
         fontFamily: "Kanit",
-        fontSize: 24,
+        fontSize: 20,
         textAlign: "center",
     },
     icon: {
