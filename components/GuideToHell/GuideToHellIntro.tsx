@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 
-import Button from "./Button";
+import Button from "../Button";
 import useLocalAsyncStorage from "@/hooks/useLocalAsyncStorage";
 
 interface GuideToHellPropTypes {
@@ -16,7 +16,7 @@ export default function GuideToHellIntro({ setIntro }: GuideToHellPropTypes) {
             <Text style={styles.subHeading}>
                 Welcome to Houston! Check out some of our favorite local businesses while you're here.
             </Text>
-            <Image style={styles.icon} source={require("../assets/icons/rock.png")} />
+            <Image style={styles.icon} source={require("../../assets/icons/rock.png")} />
             <Button
                 type="primary"
                 text="lets go!"

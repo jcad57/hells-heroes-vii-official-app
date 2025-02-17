@@ -1,12 +1,5 @@
-import { Pressable, View, StyleSheet, Image, Text, ImageSourcePropType } from "react-native";
-
-interface NavItemPropType {
-    label: string;
-    icon: ImageSourcePropType;
-    iconSelected: ImageSourcePropType;
-    isSelected: boolean;
-    onPress: () => void;
-}
+import { Pressable, View, StyleSheet, Image, Text } from "react-native";
+import { NavItemPropType } from "@/data/types";
 
 export default function NavItem({ label, icon, iconSelected, isSelected, onPress }: NavItemPropType) {
     return (

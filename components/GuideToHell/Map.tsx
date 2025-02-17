@@ -1,17 +1,15 @@
-import { StyleSheet, View, Image, Text, ActivityIndicator } from "react-native";
-import { useEffect, useRef, useState } from "react";
-import { db } from "@/firebase/firebase";
-import { collection, getDocs, query } from "firebase/firestore";
+import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
+import { useRef, useState } from "react";
 import MapView, { Callout, LatLng, Marker, Region } from "react-native-maps";
-import { BusinessListData } from "../data/types";
+import { BusinessListData } from "../../data/types";
+import { useFetchBusinessList } from "@/hooks/useFetchBusinessList";
 
-import PageHeading from "./PageHeading";
-import Loading from "./Loading";
-import Button from "./Button";
+import BusinessListCarousel from "./BusinessListCarousel";
+import PageHeading from "../PageHeading";
 
 export default function Map() {
-    const [isLoading, setIsLoading] = useState(false);
-    const [businessList, setBusinessList] = useState<BusinessListData[]>([]);
+    const { businessList, isLoading } = useFetchBusinessList();
+
     const [region, setRegion] = useState({
         // Initial Region
         latitude: 29.786213265882278,
@@ -21,29 +19,6 @@ export default function Map() {
     });
 
     const mapRef = useRef<MapView>(null);
-
-    useEffect(() => {
-        const fetchBusinessList = async () => {
-            setIsLoading(true);
-            try {
-                const querySnapshot = await getDocs(query(collection(db, "guide-to-hell-business-list")));
-                const businessListData = querySnapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    name: doc.data().name,
-                    description: doc.data().description,
-                    latitude: parseFloat(doc.data().latitude),
-                    longitude: parseFloat(doc.data().longitude),
-                }));
-                setBusinessList(businessListData);
-
-                setIsLoading(false);
-            } catch (error) {
-                console.error("Error fetching schedule:", error);
-                setIsLoading(false);
-            }
-        };
-        fetchBusinessList();
-    }, []);
 
     function handleMarkerPress(marker: BusinessListData) {
         setRegion({
@@ -86,6 +61,7 @@ export default function Map() {
                         <ActivityIndicator />
                     </View>
                 )}
+                <BusinessListCarousel businessList={businessList} />
             </View>
         </>
     );

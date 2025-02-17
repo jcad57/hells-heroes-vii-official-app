@@ -1,8 +1,8 @@
 import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 
-import Map from "./Map";
-import GuideToHellIntro from "./GuideToHellIntro";
+import Map from "../GuideToHell/Map";
+import GuideToHellIntro from "../GuideToHell/GuideToHellIntro";
 import useLocalAsyncStorage from "@/hooks/useLocalAsyncStorage";
 
 export default function GuideToHell() {

@@ -1,4 +1,4 @@
-import { Image, Linking, StyleSheet, View } from "react-native";
+import { Linking, StyleSheet, View } from "react-native";
 import PageHeading from "./PageHeading";
 import Button from "./Button";
 
