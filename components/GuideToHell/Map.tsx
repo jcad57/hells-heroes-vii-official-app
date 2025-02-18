@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator, FlatList, Platform, Linking } from "react-native";
 import { useRef, useState } from "react";
 import MapView, { Callout, LatLng, Marker, Region } from "react-native-maps";
 import { BusinessListData } from "../../data/types";
@@ -9,24 +9,25 @@ import PageHeading from "../PageHeading";
 
 export default function Map() {
     const { businessList, isLoading } = useFetchBusinessList();
+    const carouselRef = useRef<FlatList>(null);
+    const mapRef = useRef<MapView>(null);
 
     const [region, setRegion] = useState({
         // Initial Region
-        latitude: 29.786213265882278,
-        longitude: -95.36701106479163,
-        latitudeDelta: 0.1,
+        latitude: 29.750076,
+        longitude: -95.369312,
+        latitudeDelta: 0.2,
         longitudeDelta: 0.07,
     });
 
-    const mapRef = useRef<MapView>(null);
-
-    function handleMarkerPress(marker: BusinessListData) {
+    function handleMarkerPress(marker: BusinessListData, index: number) {
         setRegion({
-            latitude: marker.latitude,
+            latitude: marker.latitude - 0.01,
             longitude: marker.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: marker.latitudeDelta,
+            longitudeDelta: marker.longitudeDelta,
         });
+        carouselRef.current?.scrollToIndex({ index });
     }
 
     return (
@@ -40,19 +41,18 @@ export default function Map() {
                         initialRegion={region}
                         region={region}
                         mapType="mutedStandard">
-                        {businessList.map((marker) => {
+                        {businessList.map((marker, index) => {
                             return (
                                 <Marker
                                     key={marker.id}
-                                    coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-                                    onSelect={() => handleMarkerPress(marker)}>
-                                    <Callout tooltip={true}>
-                                        <View style={styles.tooltipContainer}>
-                                            <Text style={styles.markerName}>{marker.name}</Text>
-                                            <Text style={styles.markerDescription}>{marker.description}</Text>
-                                        </View>
-                                    </Callout>
-                                </Marker>
+                                    coordinate={{
+                                        latitude: marker.latitude,
+                                        longitude: marker.longitude,
+                                        latitudeDelta: region.latitudeDelta,
+                                        longitudeDelta: region.longitudeDelta,
+                                    }}
+                                    onSelect={() => handleMarkerPress(marker, index)}
+                                />
                             );
                         })}
                     </MapView>
@@ -61,7 +61,7 @@ export default function Map() {
                         <ActivityIndicator />
                     </View>
                 )}
-                <BusinessListCarousel businessList={businessList} />
+                <BusinessListCarousel businessList={businessList} carouselRef={carouselRef} />
             </View>
         </>
     );

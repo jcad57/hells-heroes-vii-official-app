@@ -1,4 +1,4 @@
-import { ImageSourcePropType } from "react-native";
+import { FlatList, ImageSourcePropType } from "react-native";
 
 export interface BusinessListData {
     id: string;
@@ -6,10 +6,13 @@ export interface BusinessListData {
     description: string;
     latitude: number;
     longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
 }
 
 export interface BusinessListCarouselProps {
     businessList: BusinessListData[];
+    carouselRef: React.RefObject<FlatList>;
 }
 
 export interface NewsFeedItems {
