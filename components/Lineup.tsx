@@ -1,22 +1,11 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useContext, useEffect, useState } from "react";
+import { Band } from "@/data/types";
 
 import bands from "@/data/lineup";
 import PageHeading from "./PageHeading";
 import ScheduleContext from "../context/ScheduleContext";
 import Button from "./Button";
-
-interface Band {
-    id: number;
-    name: string;
-    location: string;
-    day: string;
-    stage: string;
-    filter?: string;
-    time?: string;
-    getSchedule?: () => void;
-    filterSchedule?: () => void;
-}
 
 const DATA: Band[] = bands;
 
@@ -39,11 +28,15 @@ export default function Lineup() {
 
     function handleSetFilter(filterType: string) {
         setFilter(filterType);
-        if (filterType === "all") {
+        if (filterType.includes("all")) {
             setFilteredBands(DATA);
             return;
-        }
-        setFilteredBands(DATA.filter((band) => band.filter && band.filter === filterType));
+        } else if (filterType === "pre-after-parties") {
+            setFilteredBands(
+                DATA.filter((band) => band.filter?.includes("after-parties") || band.filter?.includes("pre-parties"))
+            );
+            return;
+        } else setFilteredBands(DATA.filter((band) => band.filter?.includes(filterType)));
     }
 
     return (
@@ -53,9 +46,9 @@ export default function Lineup() {
                 <View style={{ flex: 1 }}>
                     <Button
                         type="filter"
-                        text="after-parties"
-                        onPress={() => handleSetFilter("after-parties")}
-                        selected={filter === "after-parties"}
+                        text="pre/after-parties"
+                        onPress={() => handleSetFilter("pre-after-parties")}
+                        selected={filter.includes("pre-after-parties")}
                     />
                 </View>
                 <View style={{ flex: 1 }}>
@@ -69,7 +62,7 @@ export default function Lineup() {
                 <View style={{ flex: 1 }}>
                     <Button
                         type="filter"
-                        text="local"
+                        text="texas bands"
                         onPress={() => handleSetFilter("local")}
                         selected={filter === "local"}
                     />
@@ -93,6 +86,8 @@ export default function Lineup() {
                                     backgroundColor: schedule.some((b) => b.name === band.name)
                                         ? band.filter?.includes("after-parties")
                                             ? "#D53631"
+                                            : band.filter?.includes("pre-parties")
+                                            ? "#ed7874"
                                             : "#622D91"
                                         : "null",
                                 },
@@ -101,13 +96,16 @@ export default function Lineup() {
                                 <Text style={styles.bandName}>{band.name}</Text>
                                 <Text style={styles.bandLocation}>{band.location}</Text>
                             </View>
-                            {schedule.some((b) => b.name === band.name) && band.filter === "after-parties" && (
-                                <View>
+                            {schedule.some((b) => b.name === band.name) &&
+                                (band.filter?.includes("after-parties") || band.filter?.includes("pre-parties")) && (
                                     <View>
-                                        <Text style={styles.afterPartyBandText}>AFTERPARTY</Text>
+                                        <View>
+                                            <Text style={styles.filterLabelText}>
+                                                {band.filter === "after-parties" ? "AFTER-PARTY" : "PRE-PARTY"}
+                                            </Text>
+                                        </View>
                                     </View>
-                                </View>
-                            )}
+                                )}
                         </View>
                     </Pressable>
                 ))}
@@ -132,6 +130,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        backgroundColor: "#622D91",
     },
     bandName: {
         fontSize: 18,
@@ -145,8 +144,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#fff",
     },
-    afterPartyBandText: {
-        color: "#000",
+    filterLabelText: {
+        // color: "#000",
         fontFamily: "Kanit-SemiBold",
         padding: 5,
     },

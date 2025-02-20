@@ -10,13 +10,25 @@ export default function StageSection({ stage, filteredScheduleByDay }: StageSect
         throw new Error("ScheduleContext must be used within a ScheduleProvider");
     }
     const { schedule, addBand } = context;
+
+    const convertTo24Hour = (time) => {
+        let [hours, minutes] = time.match(/\d+/g).map(Number);
+        const period = time.slice(-2); // Extract AM/PM
+
+        if (period === "PM" && hours !== 12) hours += 12; // Convert PM times (except 12 PM)
+        if (period === "AM" && hours === 12) hours = 0; // Convert 12 AM to 00
+
+        let totalMinutes = hours * 60 + minutes;
+
+        // If the time is between 12:00 AM and 5:00 AM, treat it as part of the "next day"
+        if (totalMinutes < 300) totalMinutes += 24 * 60; // Shift early morning times to be "after" 11 PM
+
+        return totalMinutes;
+    };
+
     const filteredScheduleByStage = filteredScheduleByDay
         .filter((band) => band.stage === stage)
-        .sort(function (a, b) {
-            if (a.time < b.time) return -1;
-            if (a.time > b.time) return 1;
-            return 0;
-        });
+        .sort((a, b) => convertTo24Hour(a.time) - convertTo24Hour(b.time));
 
     return (
         <View style={styles.stageSeperator}>
@@ -24,27 +36,22 @@ export default function StageSection({ stage, filteredScheduleByDay }: StageSect
             {filteredScheduleByStage.map(
                 (band) =>
                     band.stage === stage && (
-                        <Pressable
-                            style={[
-                                { backgroundColor: band.filter?.includes("after-parties") ? "#D53631" : "#622D91" },
-                                styles.bandItem,
-                            ]}
-                            key={band.id}
-                            onPress={() => addBand(band)}>
-                            <View>
-                                <Text style={styles.bandName}>{band.name}</Text>
-                                <Text style={styles.stageText}>
-                                    {/*  TODO: add styling to the 'time' text so that it stands out */}
-                                    {band.stage}, <Text>{band.time}</Text>
-                                </Text>
-                            </View>
-                            {schedule.includes(band) && band.filter === "after-parties" && (
+                        <Pressable style={styles.bandItem} key={band.id} onPress={() => addBand(band)}>
+                            <View
+                                style={{
+                                    flex: 1,
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                }}>
                                 <View>
-                                    <View>
-                                        <Text style={styles.afterPartyBandText}>AFTERPARTY</Text>
-                                    </View>
+                                    <Text style={styles.bandName}>{band.name} </Text>
+                                    <Text style={styles.stageText}>{band.location}</Text>
                                 </View>
-                            )}
+                                <View>
+                                    <Text style={styles.timeText}>{band.time}</Text>
+                                </View>
+                            </View>
                         </Pressable>
                     )
             )}
@@ -64,13 +71,9 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     bandItem: {
+        backgroundColor: "#622D91",
         paddingVertical: 10,
         paddingHorizontal: 10,
-        // backgroundColor: "#622D91",
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
     },
     bandName: {
         fontSize: 18,
@@ -80,9 +83,14 @@ const styles = StyleSheet.create({
     stageText: {
         color: "#fff",
     },
-    afterPartyBandText: {
+    timeText: {
+        fontSize: 14,
+        fontWeight: "bold",
+        color: "#fff",
+        alignSelf: "flex-end",
+    },
+    filterLabelText: {
         color: "#000",
         fontFamily: "Kanit-SemiBold",
-        padding: 5,
     },
 });

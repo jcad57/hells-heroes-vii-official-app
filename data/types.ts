@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { FlatList, ImageSourcePropType } from "react-native";
 
 export interface BusinessListData {
@@ -8,6 +9,13 @@ export interface BusinessListData {
     longitude: number;
     latitudeDelta: number;
     longitudeDelta: number;
+}
+
+export interface AppContainerProps {
+    children: ReactNode;
+    showLogo?: boolean;
+    navigationHeaderText?: string;
+    logo?: boolean;
 }
 
 export interface BusinessListCarouselProps {

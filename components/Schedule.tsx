@@ -29,6 +29,9 @@ export default function Schedule() {
         <View style={styles.container}>
             <PageHeading text="SCHEDULE" />
             <View style={{ marginBlockEnd: 35 }}>
+                <Link href="/(tabs)/schedule/wednesday" asChild>
+                    <Button type="primary" text="wednesday, march 19th" />
+                </Link>
                 <Link href="/(tabs)/schedule/thursday" asChild>
                     <Button type="primary" text="thursday, march 20th" />
                 </Link>

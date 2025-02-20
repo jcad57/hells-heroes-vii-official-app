@@ -1,6 +1,7 @@
 import { Linking, StyleSheet, View } from "react-native";
 import PageHeading from "./PageHeading";
 import Button from "./Button";
+import { Link } from "expo-router";
 
 const TICKET_URL = "https://www.ticketmaster.com/hell's-heroes-tickets/artist/3018376";
 const TICKET_UPG_URL = "https://bit.ly/4jQIPho";
@@ -30,6 +31,9 @@ export default function More() {
                 <Button type="primary" text="Official Merch" onPress={() => handlePress(MERCH_URL)} />
                 {/* <Button type="primary" text="Website" onPress={() => handlePress(TICKETLINK)} /> */}
                 <Button type="primary" text="Venue Information" onPress={() => handlePress(WOMH_URL)} />
+                <Link href="/(tabs)/local" asChild>
+                    <Button type="primary" text="Local Food & drinks" />
+                </Link>
 
                 <PageHeading text="Socials" />
 

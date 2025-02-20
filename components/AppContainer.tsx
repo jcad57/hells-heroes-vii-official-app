@@ -1,16 +1,9 @@
 import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { ReactNode } from "react";
-
+import { AppContainerProps } from "@/data/types";
 import Logo from "./Logo";
 import Navbar from "./Navbar";
-
-interface AppContainerProps {
-    children: ReactNode;
-    showLogo?: boolean;
-    navigationHeaderText?: string;
-    logo: boolean;
-}
 
 export default function AppContainer({
     logo,
