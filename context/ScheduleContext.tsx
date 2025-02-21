@@ -1,32 +1,17 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { Band } from "@/data/types";
 import React, { createContext, useState, ReactNode, useEffect } from "react";
-
-interface Band {
-    id: number;
-    name: string;
-    location: string;
-    day: string;
-    stage: string;
-    filter?: string;
-    time?: string;
-}
 
 interface ScheduleContextType {
     schedule: Band[];
-    addBand: (band: Band) => void;
+    toggleBand: (band: Band) => void;
     clearSchedule: () => void;
     getSchedule: () => void;
     filterSchedule: (type: string, value: any) => Band[];
 }
 
-const ScheduleContext = createContext<ScheduleContextType>({
-    schedule: [],
-    addBand: () => {},
-    clearSchedule: () => {},
-    getSchedule: () => {},
-    filterSchedule: () => [],
-});
+const ScheduleContext = createContext<ScheduleContextType | null>(null);
 
 export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
     const [schedule, setSchedule] = useState<Band[]>([]);
@@ -46,7 +31,8 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
-    const addBand = async (band: Band) => {
+    const toggleBand = async (band: Band) => {
+        // Toggle band on/off schedule
         try {
             const updatedSchedule = schedule.some((b) => b.id === band.id)
                 ? schedule.filter((b) => b.id !== band.id)
@@ -64,7 +50,7 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
             await AsyncStorage.setItem("my-schedule", JSON.stringify([]));
             setSchedule([]);
         } catch (e) {
-            // remove error
+            console.error(e);
         }
 
         console.log("Done.");
@@ -78,7 +64,7 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <ScheduleContext.Provider value={{ schedule, getSchedule, addBand, clearSchedule, filterSchedule }}>
+        <ScheduleContext.Provider value={{ schedule, getSchedule, toggleBand, clearSchedule, filterSchedule }}>
             {children}
         </ScheduleContext.Provider>
     );

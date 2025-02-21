@@ -9,7 +9,7 @@ export default function useFetchNewsfeed() {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const fetchSchedule = async () => {
+        const fetchNews = async () => {
             setIsLoading(true);
             try {
                 const querySnapshot = await getDocs(query(collection(db, "newsfeed-items")));
@@ -32,7 +32,7 @@ export default function useFetchNewsfeed() {
                 setIsLoading(false);
             }
         };
-        fetchSchedule();
+        fetchNews();
     }, []);
 
     return { newsFeed, newsFeedError, isLoading };

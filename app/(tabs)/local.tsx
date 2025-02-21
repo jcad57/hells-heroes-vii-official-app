@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Map from "../../components/GuideToHell/Map";
 import GuideToHellIntro from "../../components/GuideToHell/GuideToHellIntro";
 import useLocalAsyncStorage from "@/hooks/useLocalAsyncStorage";
-import AppContainer from "@/components/AppContainer";
+import AppContainer from "@/components/Layout/AppContainer";
 
 export default function GuideToHell() {
     const { setStorage, getStorage } = useLocalAsyncStorage();

@@ -1,7 +1,7 @@
 import { StyleSheet, Text } from "react-native";
 
 import FilteredSchedule from "@/components/FilteredSchedule";
-import AppContainer from "@/components/AppContainer";
+import AppContainer from "@/components/Layout/AppContainer";
 
 export default function Wednesday() {
     return (

@@ -3,13 +3,14 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { StageSectionType } from "@/data/types";
 
 import ScheduleContext from "@/context/ScheduleContext";
+import BandItem from "./Lineup/BandItem";
 
 export default function StageSection({ stage, filteredScheduleByDay }: StageSectionType) {
     const context = useContext(ScheduleContext);
     if (!context) {
         throw new Error("ScheduleContext must be used within a ScheduleProvider");
     }
-    const { schedule, addBand } = context;
+    const { schedule, toggleBand } = context;
 
     const convertTo24Hour = (time) => {
         let [hours, minutes] = time.match(/\d+/g).map(Number);
@@ -36,23 +37,7 @@ export default function StageSection({ stage, filteredScheduleByDay }: StageSect
             {filteredScheduleByStage.map(
                 (band) =>
                     band.stage === stage && (
-                        <Pressable style={styles.bandItem} key={band.id} onPress={() => addBand(band)}>
-                            <View
-                                style={{
-                                    flex: 1,
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                }}>
-                                <View>
-                                    <Text style={styles.bandName}>{band.name} </Text>
-                                    <Text style={styles.stageText}>{band.location}</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.timeText}>{band.time}</Text>
-                                </View>
-                            </View>
-                        </Pressable>
+                        <BandItem key={band.id} band={band} toggleBand={toggleBand} schedule={schedule} time={true} />
                     )
             )}
         </View>
@@ -83,12 +68,7 @@ const styles = StyleSheet.create({
     stageText: {
         color: "#fff",
     },
-    timeText: {
-        fontSize: 14,
-        fontWeight: "bold",
-        color: "#fff",
-        alignSelf: "flex-end",
-    },
+
     filterLabelText: {
         color: "#000",
         fontFamily: "Kanit-SemiBold",

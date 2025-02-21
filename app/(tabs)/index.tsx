@@ -1,19 +1,20 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 
 import CurrentTabContext from "@/context/CurrentTabContext";
 
-import Navbar from "@/components/Navbar";
-import Logo from "@/components/Logo";
-import NewsFeed from "@/components/NewsFeed";
-import Lineup from "@/components/Lineup";
+import NewsFeed from "@/components/NewsFeed/NewsFeed";
+import Lineup from "@/components/Lineup/Lineup";
 import Schedule from "@/components/Schedule";
 import GuideToHell from "@/components/GuideToHell/GuideToHell";
 import More from "@/components/More";
-import AppContainer from "@/components/AppContainer";
+import AppContainer from "@/components/Layout/AppContainer";
 
 export default function Index() {
     const context = useContext(CurrentTabContext);
-    if (!context) alert("CurrentTabContext must be used within a ScheduleProvider");
+    if (!context) {
+        alert("CurrentTabContext must be used within a ScheduleProvider");
+        return undefined;
+    }
     const { currentTab } = context;
 
     return (

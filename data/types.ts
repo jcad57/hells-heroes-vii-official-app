@@ -1,6 +1,12 @@
 import { ReactNode } from "react";
 import { FlatList, ImageSourcePropType } from "react-native";
 
+export interface NewsFeedContextType {
+    newsFeed: Array<NewsFeedItems>;
+    newsFeedError: boolean;
+    isLoading: boolean;
+}
+
 export interface BusinessListData {
     id: string;
     name: string;
@@ -33,11 +39,11 @@ export interface NewsFeedItems {
 export interface Band {
     id: number;
     name: string;
-    stage: string;
-    time: string;
-    filter?: string;
     location: string;
     day: string;
+    stage: string;
+    time: string;
+    filter?: string | string[];
 }
 
 export interface StageSectionType {
