@@ -19,7 +19,7 @@ export default function useLocalAsyncStorage() {
                 return jsonValue;
             }
         } catch (e) {
-            console.log("error");
+            console.error("error");
         }
     };
 
