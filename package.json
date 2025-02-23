@@ -54,8 +54,10 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "15.8.0",
     "react-native-swipeable-carousel": "^1.0.7",
+    "react-native-uuid": "^2.0.3",
     "react-native-view-shot": "~4.0.3",
     "react-native-web": "~0.19.13",
+    "react-native-web-image": "^0.0.6",
     "react-native-webview": "13.12.5",
     "watchman": "^1.0.0"
   },

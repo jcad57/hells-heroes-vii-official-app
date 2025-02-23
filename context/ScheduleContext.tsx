@@ -3,12 +3,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Band } from "@/data/types";
 import React, { createContext, useState, ReactNode, useEffect } from "react";
 
-interface ScheduleContextType {
+export interface ScheduleContextType {
     schedule: Band[];
     toggleBand: (band: Band) => void;
     clearSchedule: () => void;
     getSchedule: () => void;
-    filterSchedule: (type: string, value: any) => Band[];
+    filterSchedule?: (type: string, value: string) => Band[];
 }
 
 const ScheduleContext = createContext<ScheduleContextType | null>(null);

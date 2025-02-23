@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ActivityIndicator, FlatList, Platform, Linking } from "react-native";
+import { StyleSheet, View, ActivityIndicator, FlatList } from "react-native";
 import { useRef, useState } from "react";
 import MapView, { Callout, LatLng, Marker, Region } from "react-native-maps";
 import { BusinessListData } from "../../data/types";
@@ -24,8 +24,8 @@ export default function Map() {
         setRegion({
             latitude: marker.latitude - 0.01,
             longitude: marker.longitude,
-            latitudeDelta: marker.latitudeDelta,
-            longitudeDelta: marker.longitudeDelta,
+            latitudeDelta: region.latitudeDelta,
+            longitudeDelta: region.longitudeDelta,
         });
         carouselRef.current?.scrollToIndex({ index });
     }
@@ -40,7 +40,9 @@ export default function Map() {
                         style={styles.map}
                         initialRegion={region}
                         region={region}
-                        mapType="mutedStandard">
+                        userInterfaceStyle="dark"
+                        loadingEnabled={true}
+                        onRegionChangeComplete={(region) => setRegion(region)}>
                         {businessList.map((marker, index) => {
                             return (
                                 <Marker
@@ -48,8 +50,6 @@ export default function Map() {
                                     coordinate={{
                                         latitude: marker.latitude,
                                         longitude: marker.longitude,
-                                        latitudeDelta: region.latitudeDelta,
-                                        longitudeDelta: region.longitudeDelta,
                                     }}
                                     onSelect={() => handleMarkerPress(marker, index)}
                                 />
@@ -61,7 +61,7 @@ export default function Map() {
                         <ActivityIndicator />
                     </View>
                 )}
-                <BusinessListCarousel businessList={businessList} carouselRef={carouselRef} />
+                <BusinessListCarousel businessList={businessList} carouselRef={carouselRef} setRegion={setRegion} />
             </View>
         </>
     );

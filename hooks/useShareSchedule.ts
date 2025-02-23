@@ -1,29 +1,27 @@
 import ScheduleContext from "@/context/ScheduleContext";
-import { useContext, useEffect, useRef, useState } from "react";
-import ViewShot, { captureRef } from "react-native-view-shot";
+import { useContext, useEffect, useState } from "react";
+import { Band } from "@/data/types";
 
 export default function useShareSchedule() {
-    const { schedule, filterSchedule } = useContext(ScheduleContext);
+    const { filterSchedule } = useContext(ScheduleContext);
+    const [shareScheduleData, setShareScheduleData] = useState<{ day: string; bands: Band[]; fontSize: number }[][]>(
+        []
+    );
 
-    const thursdayBands = filterSchedule("day", "THURSDAY");
-    const fridayBands = filterSchedule("day", "FRIDAY");
-    const saturdayBands = filterSchedule("day", "SATURDAY");
+    function setFontSize(array: Band[]) {
+        return array.length > 8 ? (array.length > 11 ? 8 : 10) : 14;
+    }
 
-    const [uris, setUris] = useState<string[]>([]);
+    useEffect(() => {
+        const scheduleAllDays = [
+            [...filterSchedule("day", "WEDNESDAY")],
+            [...filterSchedule("day", "THURSDAY")],
+            [...filterSchedule("day", "FRIDAY")],
+            [...filterSchedule("day", "SATURDAY")],
+        ];
 
+        setShareScheduleData(scheduleAllDays);
+    }, []);
 
-    const captureScreen = async (thursdayViewShot = null, fridayViewShot = null, saturdayViewShot = null) => {
-        try {
-          if (thursdayBands.length > 0){
-            try {
-                if (!thursdayViewShot.current) {
-                                throw new Error("viewShotRef is null");
-                            }
-                            const thursdayUri = await captureRef(thursdayViewShot, { format: "png", quality: 1.0 });
-            }
-          }
-        }
-    };
-
-    const shareSchedule = async () => {};
+    return { shareScheduleData };
 }

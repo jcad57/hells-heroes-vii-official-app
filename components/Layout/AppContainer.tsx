@@ -1,5 +1,6 @@
 import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { AppContainerProps } from "@/data/types";
+import { Platform } from "react-native";
 
 import Navbar from "../Navbar";
 import PageHeader from "./PageHeader";
@@ -11,7 +12,7 @@ export default function AppContainer({
 }: AppContainerProps) {
     return (
         <ImageBackground source={require("../../assets/images/app-bg-image.jpg")} style={styles.bgImage}>
-            <View style={styles.container}>
+            <View style={[styles.container, { paddingTop: Platform.OS === "ios" ? 56 : 40 }]}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <PageHeader logo={logo} />
                     {children}
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         minWidth: "100%",
-        paddingTop: 60,
+
         backgroundColor: "rgba(0, 0, 0, 0.6)",
     },
 });

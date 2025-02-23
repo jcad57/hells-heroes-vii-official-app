@@ -23,7 +23,7 @@ export default function BandItem({
                         // highlights in red
                         backgroundColor: schedule.some((b) => b.name === band.name)
                             ? band.filter?.includes("after-parties") || band.filter?.includes("pre-parties")
-                                ? "#360e59"
+                                ? "#43136e"
                                 : "#622D91"
                             : "null",
                     },

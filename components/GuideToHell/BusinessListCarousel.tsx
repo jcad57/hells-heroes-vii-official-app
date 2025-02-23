@@ -1,11 +1,12 @@
 import { Dimensions, FlatList, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BusinessListCarouselProps, BusinessListData } from "../../data/types";
 import { Linking } from "react-native";
+import { useEffect } from "react";
 
-export default function BusinessListCarousel({ businessList, carouselRef }: BusinessListCarouselProps) {
+export default function BusinessListCarousel({ businessList, carouselRef, setRegion }: BusinessListCarouselProps) {
     const flatListItemWidth = Dimensions.get("screen").width * 0.9 - 16;
 
-    function openDirections(business: BusinessListData) {
+    function getDirections(business: BusinessListData) {
         const { latitude, longitude, name } = business;
         const url = Platform.select({
             ios: `maps://?daddr=${latitude},${longitude}&dirflg=d`,
@@ -16,6 +17,8 @@ export default function BusinessListCarousel({ businessList, carouselRef }: Busi
             Linking.openURL(url).catch((err) => console.error("Error opening maps", err));
         }
     }
+
+    useEffect(() => {}, []);
 
     return (
         <View style={styles.carouselContainer}>
@@ -29,7 +32,7 @@ export default function BusinessListCarousel({ businessList, carouselRef }: Busi
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <TouchableOpacity activeOpacity={1} onPress={() => openDirections(item)}>
+                    <TouchableOpacity activeOpacity={1} onPress={() => getDirections(item)}>
                         <View style={[styles.itemContainer, { maxWidth: flatListItemWidth }]} key={item.id}>
                             <Image
                                 style={styles.thumbnail}

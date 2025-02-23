@@ -13,8 +13,8 @@ const convertTo24Hour = (time) => {
     return totalMinutes;
 };
 
-export const filteredScheduleByStage = (filteredScheduleByDay, stage) => {
-    return filteredScheduleByDay
-        .filter((band) => band.stage === stage)
-        .sort((a, b) => convertTo24Hour(a.time) - convertTo24Hour(b.time));
-};
+// export const filteredScheduleByStage = (filteredScheduleByDay: , stage: string) => {
+//     return filteredScheduleByDay
+//         .filter((band) => band.stage === stage)
+//         .sort((a, b) => convertTo24Hour(a.time) - convertTo24Hour(b.time));
+// };
