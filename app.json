@@ -47,7 +47,7 @@
                     "image": "./assets/images/hh-icon-512.png",
                     "imageWidth": 200,
                     "resizeMode": "contain",
-                    "backgroundColor": "#ffffff"
+                    "backgroundColor": "#000000"
                 }
             ]
         ],
