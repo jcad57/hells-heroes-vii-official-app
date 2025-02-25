@@ -4,7 +4,7 @@
         "slug": "hells-heroes-vii-app",
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/images/icon.png",
+        "icon": "./assets/images/hhicon512.png",
         "scheme": "myapp",
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,
@@ -16,14 +16,14 @@
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/images/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
+                "foregroundImage": "./assets/images/hhicon512.png",
+                "backgroundColor": "#000000"
             }
         },
         "web": {
             "bundler": "metro",
             "output": "static",
-            "favicon": "./assets/images/favicon.png"
+            "favicon": "./assets/images/hhicon512.png"
         },
         "plugins": [
             "@react-native-firebase/app",
@@ -44,7 +44,7 @@
             [
                 "expo-splash-screen",
                 {
-                    "image": "./assets/images/hh-icon-512.png",
+                    "image": "./assets/images/hhicon512.png",
                     "imageWidth": 200,
                     "resizeMode": "contain",
                     "backgroundColor": "#000000"
