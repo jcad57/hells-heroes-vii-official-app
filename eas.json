@@ -1,12 +1,21 @@
 {
     "cli": {
         "version": ">= 14.2.0",
-        "appVersionSource": "remote"
+        "appVersionSource": "remote",
+        "requireCommit": true
     },
     "build": {
         "development": {
             "developmentClient": true,
             "distribution": "internal"
+        },
+        "androidAPK": {
+            "android": {
+                "developmentClient": true,
+                "distribution": "internal",
+                "gradleCommand": ":app:assembleRelease",
+                "buildType": "apk"
+            }
         },
         "preview": {
             "distribution": "internal"

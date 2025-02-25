@@ -1,65 +1,63 @@
 {
-  "expo": {
-    "name": "hells-heroes-vii-app",
-    "slug": "hells-heroes-vii-app",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.hellsherosvii",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.jcadeichmann.hellsheroesviiapp"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "@react-native-firebase/app",
-      "expo-router",
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/fonts/Kanit-Regular.ttf",
-            "./assets/fonts/Kanit-Bold.ttf",
-            "./assets/fonts/Kanit-Medium.ttf",
-            "./assets/fonts/Kanit-SemiBold.ttf",
-            "./assets/fonts/Kanit-ExtraBold.ttf",
-            "./assets/fonts/Kanit-Black.ttf"
-          ]
+    "expo": {
+        "name": "hells-heroes-vii-app",
+        "slug": "hells-heroes-vii-app",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/images/icon.png",
+        "scheme": "myapp",
+        "userInterfaceStyle": "automatic",
+        "newArchEnabled": true,
+        "ios": {
+            "supportsTablet": true,
+            "infoPlist": {
+                "ITSAppUsesNonExemptEncryption": false
+            }
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            }
+        },
+        "web": {
+            "bundler": "metro",
+            "output": "static",
+            "favicon": "./assets/images/favicon.png"
+        },
+        "plugins": [
+            "@react-native-firebase/app",
+            "expo-router",
+            [
+                "expo-font",
+                {
+                    "fonts": [
+                        "./assets/fonts/Kanit-Regular.ttf",
+                        "./assets/fonts/Kanit-Bold.ttf",
+                        "./assets/fonts/Kanit-Medium.ttf",
+                        "./assets/fonts/Kanit-SemiBold.ttf",
+                        "./assets/fonts/Kanit-ExtraBold.ttf",
+                        "./assets/fonts/Kanit-Black.ttf"
+                    ]
+                }
+            ],
+            [
+                "expo-splash-screen",
+                {
+                    "image": "./assets/images/splash-icon.png",
+                    "imageWidth": 200,
+                    "resizeMode": "contain",
+                    "backgroundColor": "#ffffff"
+                }
+            ]
+        ],
+        "experiments": {
+            "typedRoutes": true
+        },
+        "extra": {
+            "eas": {
+                "projectId": "bfce2cf9-0876-4ced-ad83-7bba4afb3e78"
+            }
         }
-      ],
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true
-    },
-    "extra": {
-      "eas": {
-        "projectId": "bfce2cf9-0876-4ced-ad83-7bba4afb3e78"
-      }
     }
-  }
 }
