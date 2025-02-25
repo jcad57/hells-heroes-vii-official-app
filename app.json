@@ -1,63 +1,64 @@
 {
-    "expo": {
-        "name": "hells-heroes-vii-app",
-        "slug": "hells-heroes-vii-app",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/images/hhicon512.png",
-        "scheme": "myapp",
-        "userInterfaceStyle": "automatic",
-        "newArchEnabled": true,
-        "ios": {
-            "supportsTablet": true,
-            "infoPlist": {
-                "ITSAppUsesNonExemptEncryption": false
-            }
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/images/hhicon512.png",
-                "backgroundColor": "#000000"
-            }
-        },
-        "web": {
-            "bundler": "metro",
-            "output": "static",
-            "favicon": "./assets/images/hhicon512.png"
-        },
-        "plugins": [
-            "@react-native-firebase/app",
-            "expo-router",
-            [
-                "expo-font",
-                {
-                    "fonts": [
-                        "./assets/fonts/Kanit-Regular.ttf",
-                        "./assets/fonts/Kanit-Bold.ttf",
-                        "./assets/fonts/Kanit-Medium.ttf",
-                        "./assets/fonts/Kanit-SemiBold.ttf",
-                        "./assets/fonts/Kanit-ExtraBold.ttf",
-                        "./assets/fonts/Kanit-Black.ttf"
-                    ]
-                }
-            ],
-            [
-                "expo-splash-screen",
-                {
-                    "image": "./assets/images/hhicon512.png",
-                    "imageWidth": 200,
-                    "resizeMode": "contain",
-                    "backgroundColor": "#000000"
-                }
-            ]
-        ],
-        "experiments": {
-            "typedRoutes": true
-        },
-        "extra": {
-            "eas": {
-                "projectId": "bfce2cf9-0876-4ced-ad83-7bba4afb3e78"
-            }
+  "expo": {
+    "name": "hells-heroes-vii-app",
+    "slug": "hells-heroes-vii-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/hhicon512.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.hellsheroesvii"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/hhicon512.png",
+        "backgroundColor": "#000000"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/hhicon512.png"
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      "expo-router",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Kanit-Regular.ttf",
+            "./assets/fonts/Kanit-Bold.ttf",
+            "./assets/fonts/Kanit-Medium.ttf",
+            "./assets/fonts/Kanit-SemiBold.ttf",
+            "./assets/fonts/Kanit-ExtraBold.ttf",
+            "./assets/fonts/Kanit-Black.ttf"
+          ]
         }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/hhicon512.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#000000"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "bfce2cf9-0876-4ced-ad83-7bba4afb3e78"
+      }
     }
+  }
 }
